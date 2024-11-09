@@ -67,4 +67,19 @@ public class Member extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberMission> memberMissionList = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Store{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", specAddress='" + specAddress + '\'' +
+                ", gender=" + (gender != null ? gender.toString() : "N/A") + '\'' +
+                ", socialType=" + (socialType != null ? socialType.toString() : "N/A") + '\'' +
+                ", status=" + status + '\'' +
+                ", email=" + email + '\'' +
+                ", point=" + point + '\'' +
+                '}';
+    }
 }
