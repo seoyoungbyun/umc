@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.study.domain.*;
+import umc.spring.study.domain.QMember;
+import umc.spring.study.domain.QStore;
 
 @Repository
 @RequiredArgsConstructor

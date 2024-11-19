@@ -18,6 +18,8 @@ import umc.spring.study.repository.ReviewRepository.ReviewRepository;
 import umc.spring.study.repository.StoreRepository.StoreRepository;
 import umc.spring.study.web.dto.ReviewRequestDTO;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewCommandServiceImpl implements ReviewCommandService {
@@ -30,7 +32,8 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
     @Transactional
     public Review joinReview(ReviewRequestDTO.ReviewJoinDto request, Long storeId) {
 
-        Store store = storeRepository.findById(storeId).orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new RuntimeException());;
         Member member = memberRepository.findRandomMember();
         Review newReview = ReviewConverter.toReview(request, store, member);
 

@@ -31,4 +31,11 @@ public class StoreRestController {
         return ApiResponse.onSuccess(StoreConverter.toJoinResultDTO(store));
     }
 
+    @PostMapping("/{store_id}/reviews")
+    public ApiResponse<ReviewResponseDTO.ReviewJoinResultDTO> join(
+            @ExistStore @PathVariable Long store_id,
+            @RequestBody @Valid ReviewRequestDTO.ReviewJoinDto request){
+        Review review = reviewCommandService.joinReview(request, store_id);
+        return ApiResponse.onSuccess(ReviewConverter.toJoinResultDTO(review));
+    }
 }
