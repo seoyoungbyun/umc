@@ -32,4 +32,12 @@ public class StoreRepositoryImpl implements StoreRepositoryCustom{
                 .where(predicate)
                 .fetch();
     }
+
+    @Override
+    public Store findStoreById(Long id) {
+        return jpaQueryFactory
+                .selectFrom(store)
+                .where(store.id.eq(id))
+                .fetchOne();
+    }
 }
