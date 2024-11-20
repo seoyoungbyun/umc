@@ -8,14 +8,16 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import umc.spring.study.domain.*;
+import umc.spring.study.domain.QMember;
+import umc.spring.study.domain.QMission;
+import umc.spring.study.domain.QRegion;
+import umc.spring.study.domain.QStore;
 import umc.spring.study.domain.enums.MissionStatus;
 import umc.spring.study.domain.mapping.QMemberMission;
 import umc.spring.study.web.dto.HomeDTO;
 import umc.spring.study.web.dto.MissionByStatusDTO;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
