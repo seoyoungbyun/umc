@@ -91,4 +91,24 @@ public class MemberRestController {
         Page<Mission> missionList = memberQueryService.getMissionList(userId, page);
         return ApiResponse.onSuccess(MissionConverter.missionPreViewListDTO(missionList));
     }
+
+    @PatchMapping("{userId}/missions/complete/view")
+    @Operation(summary = "진행 중인 미션 진행 완료로 바꾸기",description = "진행 중인 미션 진행 완료로 바꾸는 API이며, 페이징을 포함합니다. query String 으로 page 번호를 주세요")
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200",description = "OK, 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH003", description = "access 토큰을 주세요!",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH004", description = "acess 토큰 만료",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH006", description = "acess 토큰 모양이 이상함",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+    })
+    @Parameters({
+            @Parameter(name = "userId", description = "나의 아이디, path variable 입니다!")
+    })
+    public ApiResponse<MissionResponseDTO.MissionPreViewListDTO> completeMissionList(
+            @PathVariable(name = "userId") Long userId,
+            @RequestParam(name = "missionId") Long missionId,
+            @CheckPage @RequestParam(name = "page") Integer page){
+        page = page - 1;
+        Page<Mission> missionList = memberQueryService.completeMission(userId, missionId, page);
+        return ApiResponse.onSuccess(MissionConverter.missionPreViewListDTO(missionList));
+    }
 }

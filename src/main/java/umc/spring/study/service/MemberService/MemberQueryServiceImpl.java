@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class MemberQueryServiceImpl implements MemberQueryService {
     private final MemberRepository memberRepository;
     private final MemberMissionRepository memberMissionRepository;
@@ -53,6 +53,21 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     public Page<Mission> getMissionList(Long userId, Integer page) {
         Member member = memberRepository.findById(userId).get();
         Page<MemberMission> memberMissions = memberMissionRepository.findAllByMemberAndStatus(member, MissionStatus.CHALLENGING, PageRequest.of(page, 10));
+        Page<Mission> StorePage = memberMissions.map(MemberMission::getMission);
+        return StorePage;
+    }
+
+    @Override
+    public Page<Mission> completeMission(Long userId, Long missionId, Integer page) {
+        Member member = memberRepository.findById(userId).get();
+        memberMissionRepository.findByMemberIdAndMissionId(userId, missionId)
+                .ifPresent(memberMission -> {
+                    // 상태 변경
+                    memberMission.setStatus(MissionStatus.COMPLETE);
+                    memberMissionRepository.save(memberMission);
+                });
+
+        Page<MemberMission> memberMissions = memberMissionRepository.findAllByMemberAndStatus(member, MissionStatus.COMPLETE, PageRequest.of(page, 10));
         Page<Mission> StorePage = memberMissions.map(MemberMission::getMission);
         return StorePage;
     }

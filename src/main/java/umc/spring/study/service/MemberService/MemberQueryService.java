@@ -13,4 +13,5 @@ public interface MemberQueryService {
     Member getMemberById(Long memberId);
     Page<Review> getReviewList(Long userId, Long storeId, Integer page);
     Page<Mission> getMissionList(Long userId, Integer page);
+    Page<Mission> completeMission(Long userId, Long missionId, Integer page);
 }
