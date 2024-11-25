@@ -21,6 +21,7 @@ import umc.spring.study.domain.mapping.MemberMission;
 import umc.spring.study.service.MemberMissionService.MemberMissionCommandService;
 import umc.spring.study.service.MemberService.MemberCommandService;
 import umc.spring.study.service.MemberService.MemberQueryService;
+import umc.spring.study.validation.annotation.CheckPage;
 import umc.spring.study.validation.annotation.ExistStore;
 import umc.spring.study.validation.annotation.IsAlreadyChallenging;
 import umc.spring.study.web.dto.MemberRequestDTO;
@@ -63,7 +64,8 @@ public class MemberRestController {
     public ApiResponse<ReviewResponseDTO.ReviewPreViewListDTO> getReviewList(
             @PathVariable(name = "userId") Long userId,
             @ExistStore @RequestParam(name = "storeId") Long storeId,
-            @RequestParam(name = "page") Integer page){
+            @CheckPage @RequestParam(name = "page") Integer page){
+        page = page - 1;
         Page<Review> reviewList = memberQueryService.getReviewList(userId, storeId, page);
         return ApiResponse.onSuccess(ReviewConverter.reviewPreViewListDTO(reviewList));
     }
