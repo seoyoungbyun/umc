@@ -6,8 +6,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.study.domain.Member;
+import umc.spring.study.domain.Mission;
 import umc.spring.study.domain.Review;
 import umc.spring.study.domain.Store;
+import umc.spring.study.domain.enums.MissionStatus;
+import umc.spring.study.domain.mapping.MemberMission;
+import umc.spring.study.repository.MemberMissionRepository.MemberMissionRepository;
 import umc.spring.study.repository.MemberRepository.MemberRepository;
 import umc.spring.study.repository.ReviewRepository.ReviewRepository;
 import umc.spring.study.repository.StoreRepository.StoreRepository;
@@ -19,6 +23,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class MemberQueryServiceImpl implements MemberQueryService {
     private final MemberRepository memberRepository;
+    private final MemberMissionRepository memberMissionRepository;
     private final ReviewRepository reviewRepository;
     private final StoreRepository storeRepository;
 
@@ -41,6 +46,14 @@ public class MemberQueryServiceImpl implements MemberQueryService {
         Member member = memberRepository.findById(userId).get();
         Store store = storeRepository.findById(storeId).get();
         Page<Review> StorePage = reviewRepository.findAllByMemberAndStore(member, store, PageRequest.of(page, 10));
+        return StorePage;
+    }
+
+    @Override
+    public Page<Mission> getMissionList(Long userId, Integer page) {
+        Member member = memberRepository.findById(userId).get();
+        Page<MemberMission> memberMissions = memberMissionRepository.findAllByMemberAndStatus(member, MissionStatus.CHALLENGING, PageRequest.of(page, 10));
+        Page<Mission> StorePage = memberMissions.map(MemberMission::getMission);
         return StorePage;
     }
 }
