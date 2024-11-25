@@ -42,25 +42,25 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     }
 
     @Override
-    public Page<Review> getReviewList(Long userId, Long storeId, Integer page) {
-        Member member = memberRepository.findById(userId).get();
+    public Page<Review> getReviewList(Long memberId, Long storeId, Integer page) {
+        Member member = memberRepository.findById(memberId).get();
         Store store = storeRepository.findById(storeId).get();
         Page<Review> StorePage = reviewRepository.findAllByMemberAndStore(member, store, PageRequest.of(page, 10));
         return StorePage;
     }
 
     @Override
-    public Page<Mission> getMissionList(Long userId, Integer page) {
-        Member member = memberRepository.findById(userId).get();
+    public Page<Mission> getMissionList(Long memberId, Integer page) {
+        Member member = memberRepository.findById(memberId).get();
         Page<MemberMission> memberMissions = memberMissionRepository.findAllByMemberAndStatus(member, MissionStatus.CHALLENGING, PageRequest.of(page, 10));
         Page<Mission> StorePage = memberMissions.map(MemberMission::getMission);
         return StorePage;
     }
 
     @Override
-    public Page<Mission> completeMission(Long userId, Long missionId, Integer page) {
-        Member member = memberRepository.findById(userId).get();
-        memberMissionRepository.findByMemberIdAndMissionId(userId, missionId)
+    public Page<Mission> completeMission(Long memberId, Long missionId, Integer page) {
+        Member member = memberRepository.findById(memberId).get();
+        memberMissionRepository.findByMemberIdAndMissionId(memberId, missionId)
                 .ifPresent(memberMission -> {
                     // 상태 변경
                     memberMission.setStatus(MissionStatus.COMPLETE);
