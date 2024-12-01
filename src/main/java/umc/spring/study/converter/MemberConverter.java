@@ -39,6 +39,9 @@ public class MemberConverter {
                 .gender(gender)
                 .name(request.getName())
                 .memberPreferList(new ArrayList<>())
+                .birthYear(request.getBirthYear())
+                .birthMonth(request.getBirthMonth())
+                .birthDay(request.getBirthDay())
                 .build();
     }
 }

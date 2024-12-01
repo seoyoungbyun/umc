@@ -58,6 +58,12 @@ public class Member extends BaseEntity {
     @ColumnDefault("0")
     private Integer point;
 
+    private Integer birthYear;
+
+    private Integer birthMonth;
+
+    private Integer birthDay;
+
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberAgree> memberAgreeList = new ArrayList<>();
