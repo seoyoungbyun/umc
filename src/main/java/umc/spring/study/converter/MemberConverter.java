@@ -20,6 +20,7 @@ public class MemberConverter {
     public static Member toMember(MemberRequestDTO.MemberJoinDto request){
 
         Gender gender = null;
+        System.out.println("debug" + request.getName());
 
         switch (request.getGender()){
             case 1:
@@ -29,7 +30,7 @@ public class MemberConverter {
                 gender = Gender.FEMALE;
                 break;
             case 3:
-                gender = null;
+                gender = Gender.NONE;
                 break;
         }
 
@@ -42,6 +43,9 @@ public class MemberConverter {
                 .birthYear(request.getBirthYear())
                 .birthMonth(request.getBirthMonth())
                 .birthDay(request.getBirthDay())
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .role(request.getRole())
                 .build();
     }
 }
