@@ -26,7 +26,6 @@ public class MemberViewController {
         }
 
         try {
-            System.out.println("debug2" + request.getName());
             memberCommandService.joinMember(request);
             return "redirect:/login";
         } catch (Exception e) {
